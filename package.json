@@ -1,0 +1,25 @@
+{
+  "name": "upi-payements-backend",
+  "version": "1.0.0",
+  "description": "basic upi transaction backend",
+  "main": "index.js",
+  "scripts": {
+    "dev": " nodemon src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Anand Chaudhary",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "moongose": "^1.0.0",
+    "swagger-autogen": "^2.23.7",
+    "swagger-ui-express": "^5.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
