@@ -102,6 +102,31 @@ const loginUser = asyncHandler(async (req,res)=>{
     ))
 })
 
+const logoutUser = asyncHandler(async (req,res)=>{
+    //check whether the user is loggedin 
+    // if yes clear the cookie from the the database and the cookie from the browser
+    //and loggout is done
+    await User.findByIdAndUpdate(
+        req.user?._id,
+        {
+            $set: {
+                refreshToken: undefined
+            }
+        },{
+            new: true
+        }
+    )
+    
+    return res
+    .status(200)
+    .clearCookie("accessToken",options)
+    .clearCookie("refreshToken",options)
+    .json(
+        new ApiResponse(200,{},"logout successfull")
+    )
+
+})
+
 const setMpin = asyncHandler(async (req,res)=>{
     //take input mpin and password to setup the mpin
     //check whether mpin and password entered
@@ -132,4 +157,4 @@ const setMpin = asyncHandler(async (req,res)=>{
     )
 
 })
-export {registerUser , loginUser, setMpin}
+export {registerUser , loginUser, logoutUser, setMpin}
