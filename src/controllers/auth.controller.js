@@ -102,5 +102,34 @@ const loginUser = asyncHandler(async (req,res)=>{
     ))
 })
 
+const setMpin = asyncHandler(async (req,res)=>{
+    //take input mpin and password to setup the mpin
+    //check whether mpin and password entered
+    //use req.user from verifyJWT to find the user from database and load the user as userloggedin
+    //verify that the password is correct 
+    //set mpin
+    const { mpin , password }= req.body
 
-export {registerUser , loginUser}
+    if(!mpin && !password){
+        throw new ApiError(401,"please enter mpin to setup mpin")
+    }
+    const userLoggedin = await User.findById(req.user?._id)
+    const isPassCorrect = await userLoggedin.isPasswordCorrect(password)
+    if(!isPassCorrect){
+        throw new ApiError(403, " Enter correct password to setup Mpin")
+    }
+    userLoggedin.mpin = mpin
+    const isMpinset = await userLoggedin.save()
+    if(!isMpinset){
+        throw new ApiError(403, " error while mpin setup")
+    }
+    console.log(userLoggedin)
+
+    return res
+    .status(200)
+    .json(
+        new ApiResponse(200, {},"mpin setup successfull")
+    )
+
+})
+export {registerUser , loginUser, setMpin}

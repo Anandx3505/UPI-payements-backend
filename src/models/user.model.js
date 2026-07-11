@@ -56,6 +56,9 @@ userSchema.pre("save",async function(){
                 this.upiID = `${emailClean}@phonepe`
             } 
         }
+        if(this.isModified("mpin")){
+            this.mpin = await bcrypt.hash(this.mpin,5)
+        }
     } catch (error) {
         throw new ApiError(501, "error while pre-save process.")
     }
@@ -66,6 +69,9 @@ userSchema.methods.isPasswordCorrect = async function (password) {
     return await bcrypt.compare(password, this.password)
 }
 
+userSchema.methods.isMpinCorrect  = async function(mpin){
+    return await bcrypt.compare(mpin,this.mpin)
+}
 
 userSchema.methods.generateAccessToken = function(){
     return jwt.sign(

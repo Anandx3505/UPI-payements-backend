@@ -1,12 +1,13 @@
-import { User } from "../models/user.model";
-import { ApiError } from "../utils/ApiError";
-import { asyncHandler } from "../utils/AsyncHandler";
+import { User } from "../models/user.model.js";
+import { ApiError } from "../utils/ApiError.js";
+import { asyncHandler } from "../utils/AsyncHandler.js";
 import jwt from 'jsonwebtoken';
 
 
 const verifyJWT = asyncHandler(async (req,res,next)=>{
     try {
-        const token = req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer ","")
+        const token = req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer ", "")
+        console.log(token)
         if(!token){
             throw new ApiError(401, "unauthoriesd request, tkn missing")
         }
@@ -24,3 +25,5 @@ const verifyJWT = asyncHandler(async (req,res,next)=>{
         throw new ApiError(401, error?.message || "invalid Token")   
     }
 })
+
+export { verifyJWT}
