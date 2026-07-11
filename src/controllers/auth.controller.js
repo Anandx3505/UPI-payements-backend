@@ -4,7 +4,29 @@ import {ApiResponse} from '../utils/ApiResponse.js';
 import { User } from '../models/user.model.js';
 import bcrypt from 'bcryptjs';
 
+const options = {
+    httpOnly: true,
+    secure: true
+}
+const generateAccessAndRefreshToken = async (userID)=>{
+    try{
+        const user = await User.findById(userID).select("-password -mpin")
+        console.log("gar",user)
 
+        const accessToken = user.generateAccessToken()
+        console.log(0)
+
+        const refreshToken = user.generateRefreshToken()
+        console.log(1)
+        user.refreshToken = refreshToken
+        await user.save({validateBeforeSave: false})
+        
+        return {accessToken , refreshToken}
+    }catch(error){
+        throw new ApiError(500, `Error while generating token${error}`)
+    }
+
+}
 const registerUser = asyncHandler(async (req,res)=>{
     const {name, email, phone,password} = req.body
     console.log("name: ", name, "\nphone: ", phone);
@@ -20,20 +42,12 @@ const registerUser = asyncHandler(async (req,res)=>{
     if(userExists){
         throw new ApiError(401, "User with same phone number or email Already exists.")
     }
-    //hashed password
-    const salt = await bcrypt.genSalt(20)
-    const hashedPass = await bcrypt.hash(password,salt)
     
-    //upiID
-    const emailClean = email.toLowerCase()
-    const upiId = `${emailClean.split('@')[0]}@phonepe`
-
     const user = await User.create({
         name,
         email,
         phone,
-        password: hashedPass,
-        upiID: upiId
+        password
     })
     if(!user){
         throw new ApiError(402, "user not registered successfully.")
@@ -46,5 +60,47 @@ const registerUser = asyncHandler(async (req,res)=>{
 
 })
 
+const loginUser = asyncHandler(async (req,res)=>{
+    //req.body -> data
+    //check for email or phone which ever present 
+    //check if user exists
+    //check for password 
+    //generate tokens
+    //send cookie with token
 
-export {registerUser}
+    const { email , phone , password} = req.body
+
+    if(!(email||phone)){
+        throw new ApiError(400 , " email or phone is required for login")
+    }
+    const userExists = await User.findOne(
+        {
+            $or: [{email}, {phone}]
+        }
+    )
+
+    if(!userExists){
+        throw new ApiError(404 , "User does not exists.")
+    }
+
+    const isPassCorrect = await userExists.isPasswordCorrect(password)
+
+    if(!isPassCorrect){
+        throw new ApiError(401,"Invalid Credentials")
+    }
+
+    const {accessToken , refreshToken } = await generateAccessAndRefreshToken(userExists._id)
+
+    const userLoggedIn = await User.findById(userExists._id).select("-password -mpin")
+
+    return res
+    .status(200)
+    .cookie("accessToken" , accessToken, options)
+    .cookie("refreshToken", refreshToken, options)
+    .json(new ApiResponse(
+        200,{userLoggedIn},"LoggedIn successfully"
+    ))
+})
+
+
+export {registerUser , loginUser}
