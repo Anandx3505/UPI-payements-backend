@@ -7,7 +7,6 @@ import jwt from 'jsonwebtoken';
 const verifyJWT = asyncHandler(async (req,res,next)=>{
     try {
         const token = req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer ", "")
-        console.log(token)
         if(!token){
             throw new ApiError(401, "unauthoriesd request, tkn missing")
         }

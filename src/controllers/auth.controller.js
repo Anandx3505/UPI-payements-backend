@@ -157,4 +157,17 @@ const setMpin = asyncHandler(async (req,res)=>{
     )
 
 })
-export {registerUser , loginUser, logoutUser, setMpin}
+
+const getProfile = asyncHandler(async (req,res)=>{
+    const userLoggedin = await User.findById(req.user?._id).select("-password -mpin -refreshToken")
+    if(!userLoggedin){
+        throw new ApiError(404,"user not found or not loggedin")
+    }
+    console.log(userLoggedin)
+    return res
+    .status(200)
+    .json(
+        new ApiResponse(200,{userLoggedin},"successfully fetched profile")
+    )
+})
+export {registerUser , loginUser, logoutUser, setMpin, getProfile}
