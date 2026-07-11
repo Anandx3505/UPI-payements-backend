@@ -54,5 +54,20 @@ const sendViaUPI = asyncHandler( async (req,res)=>{
     
 })
 
+const getTransaction = asyncHandler(async (req,res)=>{
+    const transactions = await Transaction.find({
+        sender: req.user?._id
+    })
+    if(!transactions){
+        throw new ApiError(400,"can't fetech transaction history.")
+    }
 
-export {sendViaUPI}
+    return res
+    .status(200)
+    .json(
+        new ApiResponse(200, {transactions},"transaction fetched successfully.")
+    )
+})
+
+
+export {sendViaUPI , getTransaction}
