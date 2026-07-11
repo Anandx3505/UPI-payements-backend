@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import { emit } from 'moongose/models/user_model';
 
 const userSchema = new mongoose.Schema(
     {
