@@ -3,6 +3,7 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import txnRouter from './routes/txn.routes.js';
 import authRouter from './routes/auth.routes.js';
+import walletRouter from './routes/wallet.routes.js'
  
 
 const app = express();
@@ -20,7 +21,7 @@ app.use(cookieParser())
 
 app.use("/api/v1/auth", authRouter)
 app.use("/api/v1/txn", txnRouter)
-
+app.use("/api/v1/wallet", walletRouter)
 
 app.get("/api/v1/", (req,res)=>{
     res.send("Welcome to the UPI App")
