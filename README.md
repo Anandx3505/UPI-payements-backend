@@ -9,6 +9,8 @@
     <img src="https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white" alt="MongoDB" />
     <img src="https://img.shields.io/badge/Swagger-85EA2D?style=for-the-badge&logo=Swagger&logoColor=black" alt="Swagger" />
   </p>
+
+  <h3>🔗 <a href="https://upi-payements-backend.onrender.com/api-docs/#/">View Live API Documentation</a></h3>
 </div>
 
 ---
@@ -141,8 +143,9 @@ The server should now be running on `http://localhost:3000`.
 ## 🌐 API Endpoints
 
 ### 1. Swagger UI
-Once the server is running, you can access the interactive Swagger UI to explore and test the endpoints visually:
-👉 **[http://localhost:3000/api-docs](http://localhost:3000/api-docs)**
+You can access the interactive Swagger UI to explore and test the endpoints visually:
+- **🌍 Live Demo:** 👉 **[https://upi-payements-backend.onrender.com/api-docs](https://upi-payements-backend.onrender.com/api-docs)**
+- **💻 Local:** 👉 **[http://localhost:3000/api-docs](http://localhost:3000/api-docs)** (When running locally)
 
 ### 2. Postman Collection
 A fully configured Postman collection is included in this repository. 
