@@ -1,0 +1,316 @@
+{
+  "info": {
+    "_postman_id": "584d8d88-551e-45a3-b805-5dccfc4c7d36",
+    "name": "UPI-Payments-Backend",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "56303660",
+    "_collection_link": "https://go.postman.co/collection/56303660-584d8d88-551e-45a3-b805-5dccfc4c7d36?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "register",
+      "item": [
+        {
+          "name": "auth/register",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{   \"name\": \"John Doe\",\n    \"email\": \"JohnDoe123@gmail.com\",\n    \"phone\": 7685943298,\n    \"password\": \"hello@123\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{server}}/auth/register",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "auth",
+                "register"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "auth/login",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \n    \n    \"email\": \"JohnDoe123@gmail.com\",\n    \"phone\": 7685943298,\n    \"password\": \"hello@123\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{server}}/auth/login",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "auth/setMpin",
+          "request": {
+            "auth": {
+              "type": "bearer"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \n    \"mpin\": 1234,\n    \"password\": \"hello@123\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{server}}/auth/setMpin",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "auth",
+                "setMpin"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "auth/logoutUser",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{server}}/auth/logoutUser",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "auth",
+                "logoutUser"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "auth/getProfile",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{server}}/auth/getProfile",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "auth",
+                "getProfile"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "transaction",
+      "item": [
+        {
+          "name": "txn/getTransaction",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{server}}/txn/getTransaction",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "txn",
+                "getTransaction"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "txn/sendviaUPI",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"receiverUPI\": \"rahulSharma123@phonepe\", \n    \"amount\": 500, \n    \"mpin\":\"1234\"\n    \n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{server}}/txn/sendviaUPI",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "txn",
+                "sendviaUPI"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "wallet",
+      "item": [
+        {
+          "name": "wallet/addMoney",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"amount\":1000,\n    \"password\": \"hello@123\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{server}}/wallet/addMoney",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "wallet",
+                "addMoney"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "wallet/withdrawMoney",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"amount\":2000,\n    \"mpin\": \"1234\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{server}}/wallet/withdrawMoney",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "wallet",
+                "withdrawMoney"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "health",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{server}}/",
+          "host": [
+            "{{server}}"
+          ],
+          "path": [
+            ""
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
