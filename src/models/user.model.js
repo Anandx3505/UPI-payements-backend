@@ -7,73 +7,74 @@ import { users } from 'moongose/models/index.js';
 
 const userSchema = new mongoose.Schema(
     {
-        name:{
+        name: {
             type: String,
             required: true,
         },
-        email:{
-            type: String,
-            required: true,
-            unique: true
-        },
-        phone:{
+        email: {
             type: String,
             required: true,
             unique: true
         },
-        password:{
+        phone: {
+            type: String,
+            required: true,
+            unique: true
+        },
+        password: {
             type: String,
             required: true
         },
-        upiID:{
+        upiID: {
             type: String,
             unique: true
         },
         mpin: {
             type: String,
         },
-        balance:{
+        balance: {
             type: Number,
             default: 10000
         },
-        refreshToken:{
+        refreshToken: {
             type: String
         }
-    },{
-        timestamps: true
-    }
+    }, {
+    timestamps: true
+}
 )
-userSchema.pre("save",async function(){
+userSchema.pre("save", async function () {
     try {
-        if(this.isModified("password")){
-                this.password = await bcrypt.hash(this.password ,10)
-    
+        if (this.isModified("password")) {
+            this.password = await bcrypt.hash(this.password, 10)
+
         }
-    
-        if(this.isModified("email") || !this.upiID){
-            if(this.email) {
+
+        if (this.isModified("email") || !this.upiID) {
+            if (this.email) {
                 const emailClean = this.email.split('@')[0]
                 this.upiID = `${emailClean}@phonepe`
-            } 
+            }
         }
-        if(this.isModified("mpin")){
-            this.mpin = await bcrypt.hash(this.mpin,5)
+        if (this.isModified("mpin")) {
+            this.mpin = await bcrypt.hash(String(this.mpin), 5)
         }
     } catch (error) {
-        throw new ApiError(501, "error while pre-save process.")
+        console.error("Pre-save hook error:", error);
+        throw new ApiError(501, "error while pre-save process: " + error.message)
     }
 })
 
 
 userSchema.methods.isPasswordCorrect = async function (password) {
-    return await bcrypt.compare(password, this.password)
+    return await bcrypt.compare(String(password), this.password)
 }
 
-userSchema.methods.isMpinCorrect  = async function(mpin){
-    return await bcrypt.compare(mpin,this.mpin)
+userSchema.methods.isMpinCorrect = async function (mpin) {
+    return await bcrypt.compare(String(mpin), this.mpin)
 }
 
-userSchema.methods.generateAccessToken = function(){
+userSchema.methods.generateAccessToken = function () {
     return jwt.sign(
         {
             _id: this._id,
@@ -87,14 +88,14 @@ userSchema.methods.generateAccessToken = function(){
         }
     )
 }
-userSchema.methods.generateRefreshToken = function(){
+userSchema.methods.generateRefreshToken = function () {
     return jwt.sign(
         {
             _id: this._id
         },
         process.env.REFRESH_TOKEN_SECRET,
         {
-            expiresIn: process.env.REFRESH_TOKEN_EXPIRY  
+            expiresIn: process.env.REFRESH_TOKEN_EXPIRY
         }
     )
 }

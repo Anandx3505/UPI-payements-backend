@@ -5,6 +5,9 @@ import { User } from "../models/user.model.js"
 import { Transaction } from "../models/transaction.model.js"
 import mongoose from "mongoose";
 
+// @desc    Add money to your wallet
+// @route   POST /api/v1/wallet/addMoney
+// @access  Private
 const addMoney = asyncHandler(async (req, res) => {
     const { amount, password } = req.body
     if (amount === undefined) throw new ApiError(401, "amount is required")
@@ -61,6 +64,9 @@ const addMoney = asyncHandler(async (req, res) => {
 })
 
 
+// @desc    Withdraw money from your wallet
+// @route   POST /api/v1/wallet/withdrawMoney
+// @access  Private
 const withdrawMoney = asyncHandler(async (req, res) => {
     const { amount, mpin } = req.body
     if (amount === undefined) throw new ApiError(401, "amount is required")

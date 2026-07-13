@@ -5,6 +5,9 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/AsyncHandler.js";
 import mongoose from "mongoose";
 
+// @desc    Send money to another user via UPI ID
+// @route   POST /api/v1/txn/sendviaUPI
+// @access  Private
 const sendViaUPI = asyncHandler(async (req, res) => {
 
     const { receiverUPI, amount, mpin } = req.body
@@ -85,6 +88,9 @@ const sendViaUPI = asyncHandler(async (req, res) => {
     }
 })
 
+// @desc    Get transaction history for the logged in user
+// @route   POST /api/v1/txn/getTransaction
+// @access  Private
 const getTransaction = asyncHandler(async (req, res) => {
     const transactions = await Transaction.find({
         sender: req.user?._id
